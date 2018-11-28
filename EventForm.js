@@ -7,7 +7,7 @@ import {
     StyleSheet
 } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import { formatDate } from './api';
+import { formatDateTime, saveEvent } from './api';
 
 const styles  = StyleSheet.create({
     fieldContainer: {
@@ -52,7 +52,8 @@ class EventForm extends Component {
     };
 
     handleAddPress = () => {
-        this.props.navigation.navigate('list');
+        saveEvent(this.state)
+        .then(() => this.props.navigation.navigate('list'));
     }
 
     handleChangeTitle = (value) => {
@@ -95,7 +96,7 @@ class EventForm extends Component {
                         style={[styles.text, styles.borderTop]}
                         placeholder="Event date"
                         spellCheck={false}
-                        value={formatDate(this.state.date.toString())}
+                        value={formatDateTime(this.state.date.toString())}
                         editable={!this.state.showDatePicker}
                         onFocus={this.handleDatePress}
                     />
